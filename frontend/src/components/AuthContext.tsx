@@ -129,7 +129,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const logout = () => {
-    console.log("Logging Out...");
     localStorage.clear();
     // localStorage.removeItem("access_token");
     // localStorage.removeItem("refresh_token");
