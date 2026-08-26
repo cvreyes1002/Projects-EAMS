@@ -1,8 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Home } from "./pages/Home";
 import { AuthProvider } from "./components/AuthContext";
-import Login from "./pages/Login";
 import { PublicRoute, ProtectedRoute } from "./components/Guards";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
+import AdminDashboard from "./pages/AdminDashboard";
 
 const Logout = () => {
   localStorage.clear();
@@ -23,7 +24,7 @@ const App = () => {
 
           {/* Authenticated-only routes */}
           <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<AdminDashboard />} />
           </Route>
         </Routes>
       </BrowserRouter>

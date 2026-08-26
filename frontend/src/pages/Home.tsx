@@ -1,6 +1,6 @@
-import { useAuth } from '../components/AuthContext';
+import { useAuth } from "../components/AuthContext";
 
-export default function HomePage() {
+const Home = () => {
   const { logout } = useAuth();
 
   return (
@@ -9,4 +9,6 @@ export default function HomePage() {
       <button onClick={logout}>Log Out</button>
     </div>
   );
-}
+};
+
+export default Home;
