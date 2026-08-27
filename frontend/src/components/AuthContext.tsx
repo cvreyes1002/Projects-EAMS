@@ -15,8 +15,11 @@ interface AuthProviderProps {
 }
 
 interface User {
-  id: string;
+  id: number;
   email: string;
+  first_name: string;
+  last_name: string;
+  is_admin: boolean;
 }
 
 interface AuthContextType {
@@ -88,6 +91,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } else {
       setIsAuthenticated(true);
     }
+    // const response = await api.get("/api/user/me/", {headers: {Authorization: `Bearer ${token}`, },});
+    const response = await api.get("/api/user/me/");
+      setUser(response.data);
   };
 
   const register = async (
@@ -97,8 +103,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     password: string,
   ) => {
     try {
-      // const response = await api.post("/api/register/", { first_name, last_name, email, password });
-      await api.post("/api/register/", {
+      await api.post("/api/user/register/", {
         first_name,
         last_name,
         email,
@@ -118,7 +123,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const response = await api.post("/api/token/", { email, password });
       localStorage.setItem(ACCESS_TOKEN, response.data.access);
       localStorage.setItem(REFRESH_TOKEN, response.data.refresh);
-      setIsAuthenticated(true);
+      await auth();
+      // setIsAuthenticated(true);
     } catch (err: any) {
       // Capture errors sent by DRF
       const errorMessage =
@@ -129,6 +135,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const logout = () => {
+    debugger;
     localStorage.clear();
     // localStorage.removeItem("access_token");
     // localStorage.removeItem("refresh_token");

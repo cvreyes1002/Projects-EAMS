@@ -23,6 +23,7 @@ class CustomUser(AbstractUser):
         null=True,
         default="avatars/fallback-avatar.webp",
     )
+    is_admin = models.BooleanField(default=False,  verbose_name='admin status')
 
     # REQUIRED_FIELDS defines a list of the field names that will be prompted
     # when creating a user via the createsuperuser management command.
