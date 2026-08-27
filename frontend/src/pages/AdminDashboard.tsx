@@ -1,20 +1,12 @@
 import { useState } from 'react';
 import { useAuth } from "../components/AuthContext";
+import Sidebar from '../components/Sidebar';
 
 const AdminDashboard = () => {
   // const { user, logout } = useAuth();
   const { user, logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  const navItems = [
-    { label: 'Dashboard', href: '/admin/dashboard', active: true },
-    { label: 'Departments', href: '/admin/departments' },
-    { label: 'Employees', href: '/admin/employees' },
-    { label: 'Reports', href: '/admin/reports' },
-    { label: 'Profile', href: '/admin/profile' },
-    { label: 'Logout', href: '/logout' },
-  ];
 
   const cards = [
     { title: 'Employees', count: 5, bg: 'bg-blue-600', href: '/admin/employees' },
@@ -25,29 +17,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar */}
-      <aside
-        className={`${
-          sidebarOpen ? 'w-64' : 'w-0 -translate-x-full'
-        } transition-all duration-300 ease-in-out border-r border-gray-200 bg-white overflow-hidden flex-shrink-0`}
-      >
-        <div className="p-4 text-lg font-semibold border-b border-gray-200 bg-gray-50">
-          Admin Panel
-        </div>
-        <nav className="divide-y divide-gray-100">
-          {navItems.map((item, index) => (
-            <a
-              key={index}
-              href={item.href}
-              className={`block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-colors ${
-                item.active ? 'bg-gray-100 font-medium' : ''
-              }`}
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
-      </aside>
+      <Sidebar isAdmin={user?.is_admin ?? false} sidebarOpen={sidebarOpen} />
 
       {/* Page Content Wrapper */}
       <div className="flex-1 flex flex-col min-w-0">

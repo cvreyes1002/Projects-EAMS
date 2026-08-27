@@ -25,7 +25,7 @@ interface User {
 interface AuthContextType {
   user: User | null;
   // token: string | null;
-  isLoading: boolean;
+  isLoading: boolean | null;
   isAuthenticated: boolean | null;
   // error: string | null; // Added to track server errors
   login: (email: string, password: string) => Promise<void>; // Accepts credentials now
@@ -135,7 +135,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const logout = () => {
-    debugger;
     localStorage.clear();
     // localStorage.removeItem("access_token");
     // localStorage.removeItem("refresh_token");
