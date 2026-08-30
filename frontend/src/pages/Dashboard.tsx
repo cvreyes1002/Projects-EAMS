@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAuth } from "../components/AuthContext";
 import Sidebar from '../components/Sidebar';
 
-const AdminDashboard = () => {
+const Dashboard = () => {
   // const { user, logout } = useAuth();
   const { user, logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -92,4 +92,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default Dashboard;

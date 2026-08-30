@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../components/AuthContext";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 const Login = () => {
   const { login, register } = useAuth();
   const [state, setState] = useState("login");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   // const [name, setName] = useState("");
@@ -23,7 +24,7 @@ const Login = () => {
 
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
+    setIsLoading(true);
     setErrorMessage(null);
 
     if (state === "register") {
@@ -40,7 +41,7 @@ const Login = () => {
         setErrorMessage(message); // Captures the error thrown by AuthProvider
         console.log(message);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     } else {
       try {
@@ -51,7 +52,7 @@ const Login = () => {
         setErrorMessage(message); // Captures the error thrown by AuthProvider
         console.log(message);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     }
   };
@@ -71,6 +72,7 @@ const Login = () => {
           <span className="text-indigo-500">User</span>{" "}
           {state === "login" ? "Login" : "Sign Up"}
         </p>
+        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
         {state === "register" && (
           <>
             <div className="w-full">
@@ -132,6 +134,8 @@ const Login = () => {
             />
           </div>
         )}
+        {isLoading && <LoadingIndicator />}
+
         {state === "register" ? (
           <p>
             Already have account?{" "}
