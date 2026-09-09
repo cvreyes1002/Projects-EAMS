@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { useAuth } from "../components/AuthContext";
-import Sidebar from '../components/Sidebar';
+import Sidebar from "../components/Sidebar";
 
 const Dashboard = () => {
   // const { user, logout } = useAuth();
@@ -9,10 +9,20 @@ const Dashboard = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const cards = [
-    { title: 'Employees', count: 5, bg: 'bg-blue-600', href: '/admin/employees' },
-    { title: 'Departments', count: 5, bg: 'bg-amber-500', href: '/admin/departments' },
-    { title: "Today's Check-ins", count: 0, bg: 'bg-emerald-600', href: '#' },
-    { title: "Yesterday's Check-ins", count: 0, bg: 'bg-red-600', href: '#' },
+    {
+      title: "Employees",
+      count: 5,
+      bg: "bg-blue-600",
+      href: "/admin/employees",
+    },
+    {
+      title: "Departments",
+      count: 5,
+      bg: "bg-amber-500",
+      href: "/admin/departments",
+    },
+    { title: "Today's Check-ins", count: 0, bg: "bg-emerald-600", href: "#" },
+    { title: "Yesterday's Check-ins", count: 0, bg: "bg-red-600", href: "#" },
   ];
 
   return (
@@ -36,7 +46,9 @@ const Dashboard = () => {
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className="flex items-center space-x-1 text-sm text-gray-700 hover:text-gray-900 focus:outline-none"
             >
-              <span>{user?.first_name} {user?.last_name}</span>
+              <span>
+                {user?.first_name} {user?.last_name}
+              </span>
               <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
                 <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
               </svg>
@@ -64,28 +76,43 @@ const Dashboard = () => {
 
         {/* Main Content */}
         <main className="p-6">
-          <h1 className="text-3xl font-normal text-gray-800 mb-6">Admin Dashboard</h1>
-
-          {/* Metric Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {cards.map((card, index) => (
-              <div
-                key={index}
-                className={`${card.bg} text-white rounded-lg shadow-sm overflow-hidden flex flex-col justify-between`}
-              >
-                <div className="p-4 text-base font-medium">
-                  {card.title}: {card.count}
-                </div>
-                <a
-                  href={card.href}
-                  className="px-4 py-2.5 bg-black/10 hover:bg-black/20 flex items-center justify-between text-xs text-white transition-colors"
-                >
-                  <span>View Details</span>
-                  <span>&rsaquo;</span>
-                </a>
+          {user?.is_admin ? (
+            <>
+              <h1 className="text-3xl font-normal text-gray-800 mb-6">
+                Admin Dashboard
+              </h1>
+              {/* Metric Cards Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {cards.map((card, index) => (
+                  <div
+                    key={index}
+                    className={`${card.bg} text-white rounded-lg shadow-sm overflow-hidden flex flex-col justify-between`}
+                  >
+                    <div className="p-4 text-base font-medium">
+                      {card.title}: {card.count}
+                    </div>
+                    <a
+                      href={card.href}
+                      className="px-4 py-2.5 bg-black/10 hover:bg-black/20 flex items-center justify-between text-xs text-white transition-colors"
+                    >
+                      <span>View Details</span>
+                      <span>&rsaquo;</span>
+                    </a>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </>
+          ) : (
+            <div className="w-full px-4">
+              <h1 className="mt-4 text-3xl font-bold">
+                Welcome, {user?.first_name} {user?.last_name}!
+              </h1>
+              <p>
+                This is your employee dashboard. You can manage your attendance
+                and profile from here.
+              </p>
+            </div>
+          )}
         </main>
       </div>
     </div>
