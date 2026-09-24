@@ -3,6 +3,7 @@ import { AuthProvider } from "./components/AuthContext";
 import { PublicRoute, ProtectedRoute } from "./components/Guards";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import EmployeeList from "./pages/EmployeeList";
 
 // const Logout = () => {
 //   localStorage.clear();
@@ -24,6 +25,7 @@ const App = () => {
           {/* Authenticated-only routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/admin/employees" element={<EmployeeList />} />
           </Route>
         </Routes>
       </BrowserRouter>

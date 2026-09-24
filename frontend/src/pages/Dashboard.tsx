@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../components/AuthContext";
 import Sidebar from "../components/Sidebar";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   // const { user, logout } = useAuth();
@@ -91,13 +92,13 @@ const Dashboard = () => {
                     <div className="p-4 text-base font-medium">
                       {card.title}: {card.count}
                     </div>
-                    <a
-                      href={card.href}
+                    <Link
+                      to={card.href}
                       className="px-4 py-2.5 bg-black/10 hover:bg-black/20 flex items-center justify-between text-xs text-white transition-colors"
                     >
                       <span>View Details</span>
                       <span>&rsaquo;</span>
-                    </a>
+                    </Link>
                   </div>
                 ))}
               </div>
