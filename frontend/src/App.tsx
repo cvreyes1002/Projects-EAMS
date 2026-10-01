@@ -4,6 +4,7 @@ import { PublicRoute, ProtectedRoute } from "./components/Guards";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import EmployeeList from "./pages/EmployeeList";
+import Departments from "./pages/Departments";
 
 // const Logout = () => {
 //   localStorage.clear();
@@ -26,6 +27,7 @@ const App = () => {
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<Dashboard />} />
             <Route path="/admin/employees" element={<EmployeeList />} />
+            <Route path="/admin/departments" element={<Departments />} />
           </Route>
         </Routes>
       </BrowserRouter>
