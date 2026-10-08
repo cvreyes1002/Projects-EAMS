@@ -1,0 +1,5 @@
+# Start the container
+docker compose up -d
+
+# Show Logs
+docker logs my-postgres

@@ -101,16 +101,28 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'eams',          # The database name on the remote server
+#         'USER': 'postgres_user', # Database username
+#         'PASSWORD': 'password',  # Database password
+#         'HOST': '2.2.2.101',     # Remote server IP address or domain (e.g., '://example.com')
+#         'PORT': '5432',          # Default PostgreSQL port (change if your provider uses a different one)
+#     }
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'eams',          # The database name on the remote server
-        'USER': 'postgres_user', # Database username
-        'PASSWORD': 'password',  # Database password
-        'HOST': '2.2.2.101',     # Remote server IP address or domain (e.g., '://example.com')
-        'PORT': '5432',          # Default PostgreSQL port (change if your provider uses a different one)
+        'NAME': 'mydb',          # The database name on the remote server
+        'USER': 'myuser', # Database username
+        'PASSWORD': 'mypassword',  # Database password
+        'HOST': 'localhost',     # Remote server IP address or domain (e.g., '://example.com')
+        'PORT': '5433',          # Default PostgreSQL port (change if your provider uses a different one)
     }
 }
+
+
 
 
 # Password validation
