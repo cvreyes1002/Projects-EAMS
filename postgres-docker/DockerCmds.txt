@@ -3,3 +3,12 @@ docker compose up -d
 
 # Show Logs
 docker logs my-postgres
+
+# Backup a database
+docker exec -t postgres pg_dump -U postgres_user -d eams --no-owner --no-acl -F c > backup.dump
+
+docker exec -t postgres pg_dump -U postgres_user -d eams > backup.sql
+
+
+# Restore
+docker exec -i postgres pg_restore -U postgres_user -d eams < backup.sql

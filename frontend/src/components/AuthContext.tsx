@@ -35,6 +35,10 @@ interface AuthContextType {
     email: string,
     password: string,
   ) => Promise<void>;
+  register_dept: (
+    name: string,
+    description: string,
+  ) => Promise<void>;
   logout: () => void;
 }
 
@@ -118,6 +122,23 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  const register_dept = async (
+      name: string,
+      description: string,
+    ) => {
+      try {
+        await api.post("/api/departments/", {
+          name,
+          description,
+        });
+      } catch (err: any) {
+        const errorMessage =
+          err.response?.data?.detail || "Failed to register department.";
+        setError(errorMessage);
+        throw new Error(errorMessage);
+      }
+    };
+
   const login = async (email: string, password: string) => {
     try {
       const response = await api.post("/api/token/", { email, password });
@@ -150,6 +171,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     register,
     login,
     logout,
+    register_dept,
   };
 
   return (

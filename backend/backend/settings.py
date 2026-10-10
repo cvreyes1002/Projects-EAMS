@@ -114,11 +114,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mydb',          # The database name on the remote server
-        'USER': 'myuser', # Database username
-        'PASSWORD': 'mypassword',  # Database password
+        'NAME': 'eams',          # The database name on the remote server
+        'USER': 'postgres_user', # Database username
+        'PASSWORD': 'password',  # Database password
         'HOST': 'localhost',     # Remote server IP address or domain (e.g., '://example.com')
-        'PORT': '5433',          # Default PostgreSQL port (change if your provider uses a different one)
+        'PORT': '5432',          # Default PostgreSQL port (change if your provider uses a different one)
     }
 }
 
