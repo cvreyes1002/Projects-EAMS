@@ -7,7 +7,8 @@ User = get_user_model()
 class RegisterUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "first_name", "last_name", "email", "password"]
+        # fields = ["id", "first_name", "last_name", "email", "password"]
+        fields = ["id", "first_name", "last_name", "email", "tel_no", "department", "address", "password"]
         # Accepts password when creating a new user, but do not return a password when
         # ..giving information about a user.
         extra_kwargs = {"password": {"write_only": True}}

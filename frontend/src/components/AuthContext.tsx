@@ -34,6 +34,9 @@ interface AuthContextType {
     last_name: string,
     email: string,
     password: string,
+    tel_no?: string,
+    department?: number,
+    address?: string,
   ) => Promise<void>;
   register_dept: (
     name: string,
@@ -105,6 +108,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     last_name: string,
     email: string,
     password: string,
+    tel_no?: string,
+    department?: number,
+    address?: string,
   ) => {
     try {
       await api.post("/api/user/register/", {
@@ -112,6 +118,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         last_name,
         email,
         password,
+        tel_no,
+        department,
+        address,
       });
     } catch (err: any) {
       // Capture errors sent by DRF
@@ -121,6 +130,28 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       throw new Error(errorMessage); // Pass error down to the form component
     }
   };
+
+  // const register = async (
+  //   first_name: string,
+  //   last_name: string,
+  //   email: string,
+  //   password: string,
+  // ) => {
+  //   try {
+  //     await api.post("/api/user/register/", {
+  //       first_name,
+  //       last_name,
+  //       email,
+  //       password,
+  //     });
+  //   } catch (err: any) {
+  //     // Capture errors sent by DRF
+  //     const errorMessage =
+  //       err.response?.data?.detail || "Registration Failed.";
+  //     setError(errorMessage);
+  //     throw new Error(errorMessage); // Pass error down to the form component
+  //   }
+  // };
 
   const register_dept = async (
       name: string,

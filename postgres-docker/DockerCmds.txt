@@ -4,6 +4,9 @@ docker compose up -d
 # Show Logs
 docker logs my-postgres
 
+# Stop the containers and delete the persistent volume,
+docker compose down -v
+
 # Backup a database
 docker exec -t postgres pg_dump -U postgres_user -d eams --no-owner --no-acl -F c > backup.dump
 

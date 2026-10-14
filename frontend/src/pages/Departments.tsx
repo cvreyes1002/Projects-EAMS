@@ -1,18 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from "../components/AuthContext";
+import api from '../api';
 
-const initialDepartments = [
-  { id: 4, name: 'Finance', description: 'Manages financial operations and accounting' },
-  { id: 1, name: 'Human Resources', description: 'Manages employee relations and company policies' },
-  { id: 2, name: 'Information Technology', description: 'Handles all technology and software development' },
-  { id: 3, name: 'Marketing', description: 'Responsible for marketing and promotional activities' },
-  { id: 5, name: 'Operations', description: 'Oversees daily business operations' },
-];
+// const initialDepartments = [
+//   { id: 4, name: 'Finance', description: 'Manages financial operations and accounting' },
+//   { id: 1, name: 'Human Resources', description: 'Manages employee relations and company policies' },
+//   { id: 2, name: 'Information Technology', description: 'Handles all technology and software development' },
+//   { id: 3, name: 'Marketing', description: 'Responsible for marketing and promotional activities' },
+//   { id: 5, name: 'Operations', description: 'Oversees daily business operations' },
+// ];
 
 const Departments = () => {
   const { register_dept } = useAuth();
 
-  const [departments, setDepartments] = useState(initialDepartments);
+  const [departments, setDepartments] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentDept, setCurrentDept] = useState({ id: null, name: '', description: '' });
 
@@ -55,6 +56,17 @@ const Departments = () => {
       setDepartments(departments.filter((d) => d.id !== id));
     }
   };
+
+  useEffect(() => {
+    // Fetch departments from API when component mounts
+    const fetchDepartments = async () => {
+      // Implementation for fetching departments
+      const response = await api.get("/api/departments/");
+      setDepartments(response.data);
+    };
+
+    fetchDepartments();
+  }, []);
 
   return (
     <div className="flex h-screen bg-gray-100">
