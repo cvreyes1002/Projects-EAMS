@@ -1,13 +1,31 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../api";
 import { useAuth } from "../components/AuthContext";
 
+interface Department {
+  id: number;
+  name: string;
+  description?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+interface Employee {
+  id: number;
+  first_name?: string;
+  last_name?: string;
+  email: string;
+  phone?: string;
+  department?: number | string | Department;
+  address?: string;
+}
+
 const EmployeeList = () => {
   const { register } = useAuth();
-  const [employees, setEmployees] = useState([]);
-  const [departments, setDepartments] = useState([]);
+  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [departments, setDepartments] = useState<Department[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentEmployee, setCurrentEmployee] = useState(null);
+  const [currentEmployee, setCurrentEmployee] = useState<Employee | null>(null);
 
   useEffect(() => {
     // Fetch departments from the backend
@@ -27,7 +45,7 @@ const EmployeeList = () => {
     // Fetch employees from the backend
     const fetchEmployees = async () => {
       try {
-        const response = await api.get("/api/user/me/");
+        const response = await api.get("/api/users/");
         setEmployees(response.data);
       } catch (error) {
         console.error("Error fetching employees:", error);
@@ -48,15 +66,21 @@ const EmployeeList = () => {
     password: "",
   });
 
-  const handleOpenModal = (employee = null) => {
+  const handleOpenModal = (employee: any = null) => {
     if (employee) {
       setCurrentEmployee(employee);
+      // Extract ID if department is returned as an object from the backend
+      const deptId =
+        typeof employee.department === "object" && employee.department !== null
+          ? employee.department.id
+          : employee.department || "";
+
       setFormData({
         first_name: employee.first_name || "",
         last_name: employee.last_name || "",
         email: employee.email,
         tel_no: employee.tel_no || "",
-        department: employee.department || "",
+        department: deptId,
         address: employee.address || "",
         password: "",
       });
@@ -124,7 +148,6 @@ const EmployeeList = () => {
             <h1 className="text-3xl font-bold text-gray-800 mb-6">
               Employee Management
             </h1>
-            {console.log(employees)}
             <div className="bg-white shadow-md rounded-lg overflow-hidden mb-4">
               <div className="px-6 py-4 bg-gray-50 border-b border-gray-200 font-semibold text-gray-700 flex justify-between items-center">
                 <span>Employees</span>
@@ -166,7 +189,8 @@ const EmployeeList = () => {
                           {emp.id}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border">
-                          {emp.name}
+                          {`${emp.first_name || ""} ${emp.last_name || ""}`.trim() ||
+                            "—"}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">
                           {emp.email}
@@ -175,7 +199,12 @@ const EmployeeList = () => {
                           {emp.phone}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">
-                          {emp.department}
+                          {typeof emp.department === "object" &&
+                          emp.department !== null
+                            ? (emp.department as Department).name
+                            : departments.find(
+                                (d) => d.id === Number(emp.department),
+                              )?.name || "—"}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2 border">
                           <button
@@ -293,7 +322,9 @@ const EmployeeList = () => {
                       onChange={(e) => {
                         setFormData({
                           ...formData,
-                          department: e.target.value ? Number(e.target.value) : "",
+                          department: e.target.value
+                            ? Number(e.target.value)
+                            : "",
                         });
                       }}
                       className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"

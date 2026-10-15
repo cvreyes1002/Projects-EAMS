@@ -8,6 +8,7 @@ from rest_framework.generics import (
     CreateAPIView,
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView,
+    ListAPIView,
 )
 from .serializers import RegisterUserSerializer, UserSerializer, DepartmentSerializer
 
@@ -25,6 +26,14 @@ class CurrentUserView(APIView):
     def get(self, request):
         serializer = UserSerializer(request.user, context={"request": request})
         return Response(serializer.data)
+
+class UserListView(ListAPIView):
+    """
+    GET: List all custom users using the UserSerializer
+    """
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
 
 class DepartmentListCreateView(ListCreateAPIView):
     """
