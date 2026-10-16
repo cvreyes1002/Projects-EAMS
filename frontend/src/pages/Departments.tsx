@@ -1,18 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from "../components/AuthContext";
 import api from '../api';
-
-// const initialDepartments = [
-//   { id: 4, name: 'Finance', description: 'Manages financial operations and accounting' },
-//   { id: 1, name: 'Human Resources', description: 'Manages employee relations and company policies' },
-//   { id: 2, name: 'Information Technology', description: 'Handles all technology and software development' },
-//   { id: 3, name: 'Marketing', description: 'Responsible for marketing and promotional activities' },
-//   { id: 5, name: 'Operations', description: 'Oversees daily business operations' },
-// ];
+import Sidebar from '../components/Sidebar';
+import Navbar from '../components/Navbar';
 
 const Departments = () => {
-  const { register_dept } = useAuth();
+  const { user, register_dept } = useAuth();
 
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [departments, setDepartments] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentDept, setCurrentDept] = useState({ id: null, name: '', description: '' });
@@ -69,6 +64,14 @@ const Departments = () => {
   }, []);
 
   return (
+    <div className="flex min-h-screen bg-gray-100">
+      <Sidebar isAdmin={user?.is_admin ?? false} sidebarOpen={sidebarOpen} />
+
+      {/* Page Content Wrapper */}
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Navbar Component */}
+        <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+
     <div className="flex h-screen bg-gray-100">
       <div className="flex-1 flex flex-col overflow-hidden">
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">
@@ -194,6 +197,8 @@ const Departments = () => {
           </div>
         </div>
       )}
+    </div>
+    </div>
     </div>
   );
 }
