@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 const Sidebar = ({ isAdmin, sidebarOpen }: {isAdmin: boolean, sidebarOpen: boolean}) => {
   const navItemsAdmin = [
@@ -12,7 +13,7 @@ const Sidebar = ({ isAdmin, sidebarOpen }: {isAdmin: boolean, sidebarOpen: boole
     const navItemsEmployee = [
     { label: 'Dashboard', href: '/admin/dashboard', active: true },
     { label: 'Profile', href: '/admin/departments' },
-    { label: 'Mark Attendance', href: '/admin/employees' },
+    { label: 'Mark Attendance', href: '/employee/mark-attendance' },
     { label: 'Current Month Attendance', href: '/admin/reports' },
     { label: 'Reports', href: '/admin/profile' },
   ];
@@ -29,15 +30,15 @@ const Sidebar = ({ isAdmin, sidebarOpen }: {isAdmin: boolean, sidebarOpen: boole
         </div>
         <nav className="divide-y divide-gray-100">
           {(isAdmin ? navItemsAdmin : navItemsEmployee).map((item, index) => (
-            <a
+            <Link
               key={index}
-              href={item.href}
+              to={item.href}
               className={`block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-colors ${
                 item.active ? 'bg-gray-100 font-medium' : ''
               }`}
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
       </aside>

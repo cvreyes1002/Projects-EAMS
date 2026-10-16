@@ -16,5 +16,8 @@ docker exec -t postgres pg_dump -U postgres_user -d eams > backup.sql
 # Restore
 docker exec -i postgres pg_restore -U postgres_user -d eams < backup.sql
 
+# Start all running containers
+docker start $(docker ps -a -q)
+
 # Stop all running containers
 docker stop $(docker ps -q)

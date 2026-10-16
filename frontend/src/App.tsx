@@ -5,11 +5,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import EmployeeList from "./pages/EmployeeList";
 import Departments from "./pages/Departments";
-
-// const Logout = () => {
-//   localStorage.clear();
-//   return <Navigate to="/login" />;
-// };
+import MarkAttendance from "./pages/MarkAttendance";
 
 const App = () => {
 
@@ -28,6 +24,8 @@ const App = () => {
             <Route path="/" element={<Dashboard />} />
             <Route path="/admin/employees" element={<EmployeeList />} />
             <Route path="/admin/departments" element={<Departments />} />
+
+            <Route path="/employee/mark-attendance" element={<MarkAttendance />} />
           </Route>
         </Routes>
       </BrowserRouter>
