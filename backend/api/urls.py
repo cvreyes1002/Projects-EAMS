@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (
     CheckInView,
+    CheckOutView,
     CheckTodayAttendanceView,
     CurrentUserView,
     DepartmentListCreateView,
@@ -27,4 +28,5 @@ urlpatterns = [
         name="check-today-attendance",
     ),
     path("attendance/check-in/", CheckInView.as_view(), name="check-in"),
+    path("attendance/check-out/", CheckOutView.as_view(), name="check-out"),
 ]

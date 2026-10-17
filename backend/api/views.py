@@ -14,6 +14,7 @@ from rest_framework.generics import (
 )
 from .serializers import RegisterUserSerializer, UserSerializer, DepartmentSerializer
 
+
 class CreateUserView(CreateAPIView):
     # Get all data first from DB to make sure we do not create data that already exists.
     queryset = CustomUser.objects.all()
@@ -22,6 +23,7 @@ class CreateUserView(CreateAPIView):
     # Specify who can call this class, even if not authenticated
     permission_classes = [AllowAny]
 
+
 class CurrentUserView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -29,22 +31,27 @@ class CurrentUserView(APIView):
         serializer = UserSerializer(request.user, context={"request": request})
         return Response(serializer.data)
 
+
 class UserListView(ListAPIView):
     """
     GET: List all custom users using the UserSerializer
     """
+
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
+
 
 class DepartmentListCreateView(ListCreateAPIView):
     """
     GET: List all departments
     POST: Create a new department
     """
+
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
     permission_classes = [IsAuthenticated]
+
 
 class DepartmentDetailView(RetrieveUpdateDestroyAPIView):
     """
@@ -52,45 +59,47 @@ class DepartmentDetailView(RetrieveUpdateDestroyAPIView):
     PUT/PATCH: Update a department
     DELETE: Delete a department
     """
+
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
     permission_classes = [IsAuthenticated]
+
 
 class CheckTodayAttendanceView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         today = date.today()
-        
+
         # Filter attendance for the logged-in user and today's date
         # check_in__date extracts the date part from the DateTimeField
         has_checked_in = Attendance.objects.filter(
-            employee=request.user,
-            check_in__date=today
+            employee=request.user, check_in__date=today
         ).exists()
 
         # Optional: return the attendance details if they have checked in
         attendance = Attendance.objects.filter(
-            employee=request.user,
-            check_in__date=today
+            employee=request.user, check_in__date=today
         ).first()
 
-        return Response({
-            "has_checked_in": has_checked_in,
-            "check_in_time": attendance.check_in if attendance else None,
-            "check_out_time": attendance.check_out if attendance else None
-        })
+        return Response(
+            {
+                "has_checked_in": has_checked_in,
+                "check_in_time": attendance.check_in if attendance else None,
+                "check_out_time": attendance.check_out if attendance else None,
+            }
+        )
+
 
 class CheckInView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
         today = date.today()
-        
+
         # Check if user already checked in today to prevent duplicates
         already_checked_in = Attendance.objects.filter(
-            employee=request.user,
-            check_in__date=today
+            employee=request.user, check_in__date=today
         ).exists()
 
         if already_checked_in:
@@ -98,13 +107,51 @@ class CheckInView(APIView):
 
         # Create the attendance record with the current time
         attendance = Attendance.objects.create(
-            employee=request.user,
-            check_in=timezone.now(),
-            status="Present"
+            employee=request.user, check_in=timezone.now(), status="Present"
         )
 
-        return Response({
-            "message": "Checked in successfully!",
-            "check_in_time": attendance.check_in
-        }, status=201)
-    
+        return Response(
+            {
+                "message": "Checked in successfully!",
+                "check_in_time": attendance.check_in,
+            },
+            status=201,
+        )
+
+
+class CheckOutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        today = date.today()
+
+        # Find today's active attendance record that hasn't been checked out yet
+        attendance = Attendance.objects.filter(
+            employee=request.user, check_in__date=today, check_out__isnull=True
+        ).first()
+
+        if not attendance:
+            existing = Attendance.objects.filter(
+                employee=request.user, check_in__date=today
+            ).first()
+
+            if not existing:
+                return Response({"error": "You have not checked in today."}, status=400)
+            if existing.check_out:
+                return Response(
+                    {"error": "You have already checked out today."}, status=400
+                )
+            return Response(
+                {"error": "Active attendance record not found."}, status=400
+            )
+
+        attendance.check_out = timezone.now()
+        attendance.save()
+
+        return Response(
+            {
+                "message": "Checked out successfully!",
+                "check_out_time": attendance.check_out,
+            },
+            status=200,
+        )
