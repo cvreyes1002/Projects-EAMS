@@ -155,3 +155,27 @@ class CheckOutView(APIView):
             },
             status=200,
         )
+
+
+class CurrentMonthAttendanceView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        now = timezone.now()
+        attendances = Attendance.objects.filter(
+            employee=request.user, check_in__year=now.year, check_in__month=now.month
+        ).order_by("-check_in")
+
+        data = [
+            {
+                "date": att.check_in.date().isoformat(),
+                "checkIn": att.check_in.strftime("%Y-%m-%d %H:%M:%S"),
+                "checkOut": (
+                    att.check_out.strftime("%Y-%m-%d %H:%M:%S") if att.check_out else ""
+                ),
+                "status": att.status or "Present",
+                "notes": att.notes or "",
+            }
+            for att in attendances
+        ]
+        return Response(data)

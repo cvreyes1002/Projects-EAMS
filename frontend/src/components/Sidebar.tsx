@@ -14,7 +14,7 @@ const Sidebar = ({ isAdmin, sidebarOpen }: {isAdmin: boolean, sidebarOpen: boole
     { label: 'Dashboard', href: '/admin/dashboard', active: true },
     { label: 'Profile', href: '/admin/departments' },
     { label: 'Mark Attendance', href: '/employee/mark-attendance' },
-    { label: 'Current Month Attendance', href: '/admin/reports' },
+    { label: 'Current Month Attendance', href: '/employee/current-month-attendance' },
     { label: 'Reports', href: '/admin/profile' },
   ];
 

@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import EmployeeList from "./pages/EmployeeList";
 import Departments from "./pages/Departments";
 import MarkAttendance from "./pages/MarkAttendance";
+import CurrentMonthAttendance from "./pages/CurrentMonthAttendance";
 
 const App = () => {
 
@@ -26,6 +27,7 @@ const App = () => {
             <Route path="/admin/departments" element={<Departments />} />
 
             <Route path="/employee/mark-attendance" element={<MarkAttendance />} />
+            <Route path="/employee/current-month-attendance" element={<CurrentMonthAttendance />} />
           </Route>
         </Routes>
       </BrowserRouter>
