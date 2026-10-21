@@ -11,11 +11,13 @@ const Sidebar = ({ isAdmin, sidebarOpen }: {isAdmin: boolean, sidebarOpen: boole
   ];
 
     const navItemsEmployee = [
-    { label: 'Dashboard', href: '/admin/dashboard', active: true },
-    { label: 'Profile', href: '/admin/departments' },
+    { label: 'Dashboard', href: '/', active: true },
+    { label: 'Profile', href: '/employee/profile' },
     { label: 'Mark Attendance', href: '/employee/mark-attendance' },
     { label: 'Current Month Attendance', href: '/employee/current-month-attendance' },
-    { label: 'Reports', href: '/admin/profile' },
+    { label: 'Reports', href: '/employee/reports' },
+    { label: 'Change Password', href: '/employee/change-password' },
+    { label: 'Logout', href: '/logout' },
   ];
 
   return (
