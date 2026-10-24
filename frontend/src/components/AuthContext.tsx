@@ -131,28 +131,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  // const register = async (
-  //   first_name: string,
-  //   last_name: string,
-  //   email: string,
-  //   password: string,
-  // ) => {
-  //   try {
-  //     await api.post("/api/user/register/", {
-  //       first_name,
-  //       last_name,
-  //       email,
-  //       password,
-  //     });
-  //   } catch (err: any) {
-  //     // Capture errors sent by DRF
-  //     const errorMessage =
-  //       err.response?.data?.detail || "Registration Failed.";
-  //     setError(errorMessage);
-  //     throw new Error(errorMessage); // Pass error down to the form component
-  //   }
-  // };
-
   const register_dept = async (
       name: string,
       description: string,

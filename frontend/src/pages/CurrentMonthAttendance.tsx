@@ -55,11 +55,13 @@ const CurrentMonthAttendance = () => {
         {/* Navbar Component */}
         <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
     
-    <div className="p-6 max-w-7xl mx-auto">
+    {/* <div className="p-6 max-w-7xl mx-auto"> */}
+    <div className="min-h-screen bg-gray-50 p-6">
       {/* Page Header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Current Month Attendance</h1>
-        <p className="text-sm text-gray-500 mt-1">Attendance records for {currentMonthName}</p>
+        {/* <h1 className="text-2xl font-bold text-gray-800">Current Month Attendance</h1> */}
+        <h1 className="text-3xl font-bold text-gray-800 mb-6">Current Month Attendance</h1>
+        <p className="text-md text-gray-500 mt-1">Attendance records for {currentMonthName}</p>
       </div>
 
       {/* Card Container */}

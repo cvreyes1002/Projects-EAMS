@@ -1,13 +1,16 @@
 import { Link } from "react-router-dom";
+import { useAuth } from './AuthContext';
 
 const Sidebar = ({ isAdmin, sidebarOpen }: {isAdmin: boolean, sidebarOpen: boolean}) => {
+  const { logout } = useAuth();
+
   const navItemsAdmin = [
     { label: 'Dashboard', href: '/admin/dashboard', active: true },
     { label: 'Departments', href: '/admin/departments' },
     { label: 'Employees', href: '/admin/employees' },
     { label: 'Reports', href: '/admin/reports' },
     { label: 'Profile', href: '/admin/profile' },
-    { label: 'Logout', href: '/logout' },
+    { label: 'Logout', href: '#' },
   ];
 
     const navItemsEmployee = [
@@ -17,7 +20,7 @@ const Sidebar = ({ isAdmin, sidebarOpen }: {isAdmin: boolean, sidebarOpen: boole
     { label: 'Current Month Attendance', href: '/employee/current-month-attendance' },
     { label: 'Reports', href: '/employee/reports' },
     { label: 'Change Password', href: '/employee/change-password' },
-    { label: 'Logout', href: '/logout' },
+    { label: 'Logout', href: '#' },
   ];
 
   return (
@@ -28,25 +31,41 @@ const Sidebar = ({ isAdmin, sidebarOpen }: {isAdmin: boolean, sidebarOpen: boole
         } transition-all duration-300 ease-in-out border-r border-gray-200 bg-white overflow-hidden flex-shrink-0`}
       >
         <div className="p-4 text-lg font-semibold border-b border-gray-200 bg-gray-50">
-          {isAdmin ? "Admin Panel" : "Employee Panel" }
+          {isAdmin ? "Admin Panel" : "Employee Panel"}
         </div>
         <nav className="divide-y divide-gray-100">
-          {(isAdmin ? navItemsAdmin : navItemsEmployee).map((item, index) => (
-            <Link
-              key={index}
-              to={item.href}
-              className={`block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-colors ${
-                item.active ? 'bg-gray-100 font-medium' : ''
-              }`}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {(isAdmin ? navItemsAdmin : navItemsEmployee).map((item, index) => {
+            const isLogout = item.label === 'Logout';
+            const itemClasses = `block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-colors ${
+              item.active ? 'bg-gray-100 font-medium' : ''
+            }`;
+
+            if (isLogout) {
+              return (
+                <button
+                  key={index}
+                  onClick={logout}
+                  className={itemClasses}
+                >
+                  {item.label}
+                </button>
+              );
+            }
+
+            return (
+              <Link
+                key={index}
+                to={item.href}
+                className={itemClasses}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
       </aside>
     </>
-  )
-}
+  );
+};
 
-export default Sidebar
-
+export default Sidebar;
