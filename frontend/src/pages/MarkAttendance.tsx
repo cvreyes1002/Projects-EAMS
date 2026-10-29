@@ -103,12 +103,10 @@ const MarkAttendance = () => {
 
       {/* Page Content Wrapper */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Navbar Component */}
         <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         <div className="min-h-screen bg-gray-50 p-6">
-          {/* <div className="max-w-4xl mx-auto"> */}
-          <div className="w-full max-w-6xl">
+          <div className="w-full">
             <h1 className="text-3xl font-bold text-gray-800 mb-6">
               Mark Attendance
             </h1>

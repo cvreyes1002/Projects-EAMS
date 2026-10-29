@@ -38,7 +38,7 @@ const AdminProfile = () => {
     setLoading(true);
 
     try {
-      const response = await api.patch("/user/me/", {
+      const response = await api.patch("/api/user/me/", {
         first_name: firstName,
         last_name: lastName,
       });
@@ -68,7 +68,7 @@ const AdminProfile = () => {
     setPasswordLoading(true);
 
     try {
-      await api.post("/user/change-password/", {
+      await api.post("/api/user/change-password/", {
         current_password: currentPassword,
         new_password: newPassword,
       });
