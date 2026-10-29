@@ -6,9 +6,11 @@ from .models import Department, Attendance
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import status
 from rest_framework.generics import (
     CreateAPIView,
     ListCreateAPIView,
+    RetrieveUpdateAPIView,
     RetrieveUpdateDestroyAPIView,
     ListAPIView,
 )
@@ -24,14 +26,52 @@ class CreateUserView(CreateAPIView):
     permission_classes = [AllowAny]
 
 
-class CurrentUserView(APIView):
+# class CurrentUserView(APIView):
+#     permission_classes = [IsAuthenticated]
+
+#     def get(self, request):
+#         serializer = UserSerializer(request.user, context={"request": request})
+#         return Response(serializer.data)
+
+class CurrentUserView(RetrieveUpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user
+
+
+class ChangePasswordView(APIView):
+    """
+    POST: Change password for the authenticated user
+    """
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        serializer = UserSerializer(request.user, context={"request": request})
-        return Response(serializer.data)
+    def post(self, request):
+        user = request.user
+        current_password = request.data.get("current_password")
+        new_password = request.data.get("new_password")
 
+        if not current_password or not new_password:
+            return Response(
+                {"error": "Both current and new passwords are required."}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
+        if not user.check_password(current_password):
+            return Response(
+                {"error": "Incorrect current password."}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        user.set_password(new_password)
+        user.save()
+        return Response(
+            {"message": "Password changed successfully!"}, 
+            status=status.HTTP_200_OK
+        )
+    
+    
 class UserListView(ListAPIView):
     """
     GET: List all custom users using the UserSerializer

@@ -7,6 +7,8 @@ import EmployeeList from "./pages/EmployeeList";
 import Departments from "./pages/Departments";
 import MarkAttendance from "./pages/MarkAttendance";
 import CurrentMonthAttendance from "./pages/CurrentMonthAttendance";
+import EmployeeProfile from "./pages/EmployeeProfile";
+import AdminProfile from "./pages/AdminProfile";
 
 const App = () => {
 
@@ -22,10 +24,16 @@ const App = () => {
 
           {/* Authenticated-only routes */}
           <Route element={<ProtectedRoute />}>
+            {/* Common Pages */}
             <Route path="/" element={<Dashboard />} />
+
+            {/* Admin Pages */}
             <Route path="/admin/employees" element={<EmployeeList />} />
             <Route path="/admin/departments" element={<Departments />} />
+            <Route path="/admin/profile" element={<AdminProfile />} />
 
+            {/* Employee Pages */}
+            <Route path="/employee/profile" element={<EmployeeProfile />} />
             <Route path="/employee/mark-attendance" element={<MarkAttendance />} />
             <Route path="/employee/current-month-attendance" element={<CurrentMonthAttendance />} />
           </Route>

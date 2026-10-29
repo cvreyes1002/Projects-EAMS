@@ -1,0 +1,33 @@
+import { useState } from "react";
+import { useAuth } from "../components/AuthContext";
+import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
+
+const Profile = () => {
+  const { user } = useAuth();
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  return (
+    <div className="flex min-h-screen bg-gray-100">
+      <Sidebar isAdmin={user?.is_admin ?? false} sidebarOpen={sidebarOpen} />
+
+      {/* Page Content Wrapper */}
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Navbar Component */}
+        <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+
+        {/* Main Content */}
+        <div className="min-h-screen bg-gray-50 p-6">
+          {/* <div className="max-w-4xl mx-auto"> */}
+          <div className="w-full max-w-6xl">
+            <h1 className="text-3xl font-bold text-gray-800 mb-6">
+              {user?.is_admin ? "Admin Profile" : "Employee Profile"}
+            </h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default Profile
