@@ -10,6 +10,7 @@ import CurrentMonthAttendance from "./pages/CurrentMonthAttendance";
 import EmployeeProfile from "./pages/EmployeeProfile";
 import AdminProfile from "./pages/AdminProfile";
 import ChangePassword from "./pages/ChangePassword";
+import Reports from "./pages/Reports";
 
 const App = () => {
 
@@ -37,6 +38,7 @@ const App = () => {
             <Route path="/employee/profile" element={<EmployeeProfile />} />
             <Route path="/employee/change-password" element={<ChangePassword />} />
             <Route path="/employee/mark-attendance" element={<MarkAttendance />} />
+            <Route path="/employee/reports" element={<Reports />} />
             <Route path="/employee/current-month-attendance" element={<CurrentMonthAttendance />} />
           </Route>
         </Routes>

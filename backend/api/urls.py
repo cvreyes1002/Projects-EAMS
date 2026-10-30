@@ -9,6 +9,7 @@ from .views import (
     DepartmentListCreateView,
     DepartmentDetailView,
     UserListView,
+    PersonalAttendanceReportView
 )
 
 # fmt: off
@@ -22,5 +23,6 @@ urlpatterns = [
     path("attendance/check-in/", CheckInView.as_view(), name="check-in"),
     path("attendance/check-out/", CheckOutView.as_view(), name="check-out"),
     path("attendance/current-month/", CurrentMonthAttendanceView.as_view(), name="current-month-attendance"),
+    path("attendance/report/", PersonalAttendanceReportView.as_view(), name="personal-attendance-report"),
 ]
 # fmt: on

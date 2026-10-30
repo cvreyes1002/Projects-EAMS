@@ -219,3 +219,34 @@ class CurrentMonthAttendanceView(APIView):
             for att in attendances
         ]
         return Response(data)
+
+
+class PersonalAttendanceReportView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        start_date = request.query_params.get("start_date")
+        end_date = request.query_params.get("end_date")
+
+        attendances = Attendance.objects.filter(employee=request.user)
+
+        if start_date:
+            attendances = attendances.filter(check_in__date__gte=start_date)
+        if end_date:
+            attendances = attendances.filter(check_in__date__lte=end_date)
+
+        attendances = attendances.order_by("-check_in")
+
+        data = [
+            {
+                "date": att.check_in.date().isoformat(),
+                "checkIn": att.check_in.strftime("%Y-%m-%d %H:%M:%S"),
+                "checkOut": (
+                    att.check_out.strftime("%Y-%m-%d %H:%M:%S") if att.check_out else ""
+                ),
+                "status": att.status or "Present",
+                "notes": att.notes or "",
+            }
+            for att in attendances
+        ]
+        return Response(data)

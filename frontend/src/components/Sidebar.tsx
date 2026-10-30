@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from './AuthContext';
 
 const Sidebar = ({ isAdmin, sidebarOpen }: {isAdmin: boolean, sidebarOpen: boolean}) => {
   const { logout } = useAuth();
+  const location = useLocation();
 
   const navItemsAdmin = [
     { label: 'Dashboard', href: '/admin/dashboard', active: true },
@@ -36,8 +37,12 @@ const Sidebar = ({ isAdmin, sidebarOpen }: {isAdmin: boolean, sidebarOpen: boole
         <nav className="divide-y divide-gray-100">
           {(isAdmin ? navItemsAdmin : navItemsEmployee).map((item, index) => {
             const isLogout = item.label === 'Logout';
+
+            // Check if the current route matches the item's href (ignoring Logout)
+            const isActive = !isLogout && location.pathname === item.href;
+
             const itemClasses = `block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-colors ${
-              item.active ? 'bg-gray-100 font-medium' : ''
+              isActive ? 'bg-gray-100 font-medium text-blue-600' : ''
             }`;
 
             if (isLogout) {

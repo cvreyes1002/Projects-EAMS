@@ -1,74 +1,88 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Profile - Attendance System</title>
+    <title>Personal Attendance Reports - Attendance System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
 </head>
 <body>
     <div class="d-flex" id="wrapper">
+        <!-- Page content wrapper-->
+        <div id="page-content-wrapper">
             <!-- Page content-->
             <div class="container-fluid">
-                <h1 class="mt-4">Employee Profile</h1>
-                                
+                <h1 class="mt-4">Personal Attendance Reports</h1>
+
+                
                 <div class="card mb-4">
                     <div class="card-header">
-                        Update Profile Information
+                        <i class="fas fa-filter me-1"></i>
+                        Filter Reports
                     </div>
                     <div class="card-body">
-                        <form action="profile.php" method="POST">
-                            <input type="hidden" name="update_profile" value="1">
-                            <div class="row">
+                        <form action="reports.php" method="GET">
+                            <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="name" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="name" name="name" value="Jane Smith" required>
-                                    </div>
+                                    <label for="start_date" class="form-label">Start Date</label>
+                                    <input type="date" class="form-control" id="start_date" name="start_date" value="2026-10-01" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label">Email address</label>
-                                        <input type="email" class="form-control" id="email" name="email" value="jane.smith@company.com" required>
-                                    </div>
+                                    <label for="end_date" class="form-label">End Date</label>
+                                    <input type="date" class="form-control" id="end_date" name="end_date" value="2026-10-30" required>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="phone" class="form-label">Phone</label>
-                                        <input type="text" class="form-control" id="phone" name="phone" value="123-456-7891">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="department" class="form-label">Department</label>
-                                        <select class="form-control" id="department" name="department_id" required>
-                                                                                            <option value="4" >Finance</option>
-                                                                                            <option value="2" selected>Information Technology</option>
-                                                                                            <option value="3" >Marketing</option>
-                                                                                            <option value="5" >Operations</option>
-                                                                                    </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="address" class="form-label">Address</label>
-                                <textarea class="form-control" id="address" name="address" rows="3">456 Oak Ave, City, State</textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                            <button type="submit" class="btn btn-primary">Generate Report</button>
                         </form>
                     </div>
                 </div>
-            </div>
+
+                                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Report Results
+                    </div>
+                    <div class="card-body">
+                        <table id="reportsTable" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Check In</th>
+                                    <th>Check Out</th>
+                                    <th>Status</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                                                <tr>
+                                    <td>2026-10-16</td>
+                                    <td>2026-10-16 05:56:28</td>
+                                    <td>2026-10-16 05:57:18</td>
+                                    <td>Present</td>
+                                    <td></td>
+                                </tr>
+                                                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                            </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
     <script src="../assets/js/scripts.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#reportsTable").DataTable();
+        });
+    </script>
 </body>
 </html>
-
-
